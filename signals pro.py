@@ -1,4 +1,5 @@
 import cmath
+from scipy.integrate import quad
 
 def f(x):
     functions = [cmath.cos(x), cmath.sin(x), cmath.tan(x), cmath.exp(x), cmath.acos(x), cmath.asin(x)]
@@ -15,8 +16,8 @@ def integral(a, b, N):
 
     return integral_sum
 
-a = int(input('Enter the Lower limit: '))
-b = int(input('Enter the Upper limit: '))
+a = float(input('Enter the Lower limit: '))
+b = float(input('Enter the Upper limit: '))
 N = 1000
 w = 1
 
@@ -24,38 +25,11 @@ result = integral(a, b, N)
 
 print(f"Approximate integral value: {result:.6f}")
 
-'''
-import cmath
 
+############################################CHECKER###############################################
+real_integral, imag_integral = quad(lambda x: f(x).real, a, b)[0], quad(lambda x: f(x).imag, a, b)[0]
 
-def f(x):
-    # Define the function f(x) = cos(x) + 6i * sin(2x)
-    return 2*x
+# Combine the real and imaginary parts to get the complex integral
+complex_integral = real_integral + 1j * imag_integral
 
-# Resource;
-# https://www.khanacademy.org/math/ap-calculus-ab/ab-integration-new/ab-6-3/a/riemann-sums-with-summation-notation
-
-def riemann_approximation(a, b, N):
-    # Approximate the integral using N subintervals
-    delta_x = (b - a) / N
-    integral_sum = 0
-
-    for i in range(N):
-        x_i = a + i * delta_x
-        integral_sum += f(x_i) * cmath.exp(1j * w * x_i) * delta_x
-
-    return integral_sum
-
-# User-provided values
-a = int(input('Enter the Lower limit: '))  # Lower limit
-b = int(input('Enter the Upper limit: '))  # Upper limit
-N = 1000  # Number of subintervals
-w = 1  # Value of the variable w
-
-# Calculate the integral
-result = riemann_approximation(a, b, N)
-
-# Print the result
-print(f"Approximate integral value: {result:.6f}")
-# print(f"Analytical  integral value: ")
-'''
+print(f"Complex integral checker: {complex_integral:.6f}")
