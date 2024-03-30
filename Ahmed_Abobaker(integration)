@@ -1,0 +1,45 @@
+import cmath
+
+def get_user_function():
+    # Get user input for a function
+    user_func_str = input("Enter a function (e.g., cmath.cos(x), cmath.sin(x), cmath.exp(x)): ")
+    
+    # Evaluate the user input as a function
+    user_func = eval(f"lambda x: {user_func_str}")
+    
+    return user_func
+
+def f(x, func1, func2):
+    # Combine the two selected functions
+    return func1(x) + 6j * func2(2*x)
+
+def riemann_approximation(a, b, N, func1, func2, w):
+    # Approximate the integral using N subintervals
+    delta_x = (b - a) / N
+    integral_sum = 0
+
+    for i in range(N):
+        x_i = a + i * delta_x
+        integral_sum += f(x_i, func1, func2) * cmath.exp(1j * w * x_i) * delta_x
+
+    return integral_sum
+
+# User-provided values
+a = int(input('Enter the Lower limit: '))  # Lower limit
+b = int(input('Enter the Upper limit: '))  # Upper limit
+N = 1000  # Number of subintervals
+w = 1  # Value of the variable w
+
+# Get user input for the two functions
+print("Enter the first function:")
+func1 = get_user_function()
+print("Enter the second function:")
+func2 = get_user_function()
+
+print(f"Selected functions: {func1} and {func2}")
+
+# Calculate the integral
+result = riemann_approximation(a, b, N, func1, func2, w)
+
+# Print the result
+print(f"Approximate integral value: {result:.6f}")
